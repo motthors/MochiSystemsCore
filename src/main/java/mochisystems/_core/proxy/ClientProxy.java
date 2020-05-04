@@ -6,6 +6,8 @@ import mochisystems._core._Core;
 import mochisystems.blockcopier.BlocksRenderer;
 import mochisystems.blockcopier.MTYBlockAccess;
 import mochisystems.bufferedrenderer.SmartBufferManager;
+import mochisystems.handler.TickEventHandler;
+import mochisystems.manager.EntityWearingModelManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +19,7 @@ public class ClientProxy implements IProxy{
 	{
 		_Core.Instance.smartBufferManager = new SmartBufferManager();
         FMLCommonHandler.instance().bus().register(_Core.Instance.smartBufferManager);
+		TickEventHandler.AddClientTickPostListener(EntityWearingModelManager::UpdateModel);
 	}
 
 

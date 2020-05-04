@@ -19,7 +19,6 @@ import mochisystems.blockcopier.message.PacketHandler;
 import mochisystems._core.proxy.IProxy;
 import mochisystems.bufferedrenderer.SmartBufferManager;
 import mochisystems.handler.TickEventHandler;
-import mochisystems.manager.EntityWearingModelManager;
 import mochisystems.util.gui.GuiDragController;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -75,8 +74,6 @@ public class _Core {
         PacketHandler.init();
         proxy.PreInit();
         FMLCommonHandler.instance().bus().register(new TickEventHandler());
-        TickEventHandler.AddClientTickPostListener(EntityWearingModelManager::UpdateModel);
-//        TickEventHandler.AddServerTickPostListener(EntityWearingModelManager::UpdateModel);
         GameRegistry.registerTileEntity(tileEntityRemoteController.class, "mochisystemscore:TileEntityRemoteController");
         GameRegistry.registerTileEntity(tileEntityRemoteReceiver.class, "mochisystemscore:TileEntityRemoteReceiver");
 
@@ -116,11 +113,11 @@ public class _Core {
         );
     }
 
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent e)
-    {
-        GuiDragController.ResetSpecialCamera();
-    }
+//    @Mod.EventHandler
+//    public void postInit(FMLPostInitializationEvent e)
+//    {
+//        GuiDragController.ResetSpecialCamera();
+//    }
 
     public static void BindBlocksTextureMap()
     {

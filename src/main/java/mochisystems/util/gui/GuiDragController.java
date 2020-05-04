@@ -43,7 +43,7 @@ public abstract class GuiDragController {
         tempY = 0;
         tempZ = 0;
         cameraDistance = 10;
-        cameraDistanceTemp = ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, new String[]{"thirdPersonDistance", "field_78490_B"});
+        cameraDistanceTemp = 4;//ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, new String[]{"thirdPersonDistance", "field_78490_B"});
     }
     private void CameraPreProc(float tick)
     {

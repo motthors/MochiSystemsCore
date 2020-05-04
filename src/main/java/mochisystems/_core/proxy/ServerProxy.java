@@ -13,6 +13,7 @@ public class ServerProxy implements IProxy{
 	public void PreInit()
 	{
 		_Core.Instance.smartBufferManager = new SmartBufferManager.Dummy();
+//        TickEventHandler.AddServerTickPostListener(EntityWearingModelManager::UpdateModel);
 	}
 
 	public BlocksRenderer GetConstructorBlocksVertex(MTYBlockAccess ba)

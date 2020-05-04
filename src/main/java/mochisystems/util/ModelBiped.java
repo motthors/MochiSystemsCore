@@ -3,7 +3,6 @@ package mochisystems.util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mochisystems.handler.TickEventHandler;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
@@ -11,12 +10,12 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelBiped extends net.minecraft.client.model.ModelBiped {
 
-    IModel modelHead;
-    IModel modelBody;
-    IModel modelArmLeft;
-    IModel modelArmRight;
-    IModel modelLegLeft;
-    IModel modelLegRight;
+    private IModel modelHead;
+    private IModel modelBody;
+    private IModel modelArmLeft;
+    private IModel modelArmRight;
+    private IModel modelLegLeft;
+    private IModel modelLegRight;
 
 
     public ModelBiped()
