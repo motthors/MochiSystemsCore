@@ -10,32 +10,31 @@ import mochisystems._core.Logger;
 
 public class byteZip {
 
-	int index;
-	int outSize;
-	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	ByteArrayOutputStream orgByteArray = new ByteArrayOutputStream();
-	
+	private ByteArrayOutputStream zipedData = new ByteArrayOutputStream();
+	private ByteArrayOutputStream orgData = new ByteArrayOutputStream();
+	int writedLength;
+
+	private Deflater compresser = new Deflater();
+
 	public byteZip()
 	{
-		orgByteArray.reset();
-		index = 0;
 	}
 	
 	public void clear()
 	{
-		bos.reset();
-		index = 0;
+		orgData.reset();
+		zipedData.reset();
+		writedLength = 0;
 	}
 	
 	public void setByte(byte data)
 	{
-//		byteArray[index++] = (data);
-		orgByteArray.write(data);
+		orgData.write(data);
 	}
 	
 	public void setByteArray(byte[] ba)
 	{
-		orgByteArray.write(ba,0,ba.length);
+		orgData.write(ba,0,ba.length);
 	}
 	
 	public void setShort(short value)
@@ -61,12 +60,23 @@ public class byteZip {
 	
 	public void compress()
 	{
-		Deflater compresser = new Deflater();
-		compresser.setInput(orgByteArray.toByteArray());
+		compresser = new Deflater();
+		byte[] outBuf = new byte[1024];
+		byte[] src = orgData.toByteArray();
+		compresser.setInput(src);
+//		int i = 0;
+//		while (src.length <= i) {
+//			compresser.setInput(src, i, 1024);
+//			i += 1024;
+//		}
 		compresser.finish();
-		byte[] outBuf = new byte[orgByteArray.size()];
-		outSize = compresser.deflate(outBuf);
-		bos.write(outBuf, 0, outSize);
+
+		while (!compresser.finished()) {
+			int n = compresser.deflate(outBuf);
+			writedLength = compresser.getTotalIn();
+			zipedData.write(outBuf, 0, n);
+		}
+
 		compresser.end();
 	}
 	
@@ -89,17 +99,18 @@ public class byteZip {
         }
 		return outnum;
 	}
-	
+
+	public float currentProgress()
+	{
+//		Logger.debugInfo(writedLength + " : " + orgData.size());
+		return (orgData.size()==0) ? 0 : writedLength / (float) orgData.size();
+	}
 	public byte[] getOutput()
 	{
-		return bos.toByteArray();
-	}
-	public int getOutputLength()
-	{
-		return outSize;
+		return zipedData.toByteArray();
 	}
 	public int getOrgSize()
 	{
-		return orgByteArray.size();
+		return orgData.size();
 	}
 }

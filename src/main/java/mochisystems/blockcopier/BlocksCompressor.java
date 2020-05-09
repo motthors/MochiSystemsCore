@@ -10,14 +10,15 @@ import java.util.Map;
 
 public class BlocksCompressor {
 
+	byteZip zipCompressor = new byteZip();
+
 	public void RegisterBlocks(NBTTagCompound nbt, IBLockCopyHandler handler, BlocksScanner.BlockPiece[][][] BlockArray,
                                Map<String, Integer> nameMap, List<String> nameList)
 	{
-		byteZip zipCompressor = new byteZip();
-
 		int sizeX = BlockArray.length;
 		int sizeY = BlockArray[0].length;
 		int sizeZ = BlockArray[0][0].length;
+		zipCompressor.clear();
 
 		// compress
 		for(int z = 0; z< sizeZ; ++z)
@@ -54,7 +55,7 @@ public class BlocksCompressor {
 		}
 		nbt.setInteger("blockunlocalnameNum", nameList.size());
 
-        zipCompressor.compress();
+//        zipCompressor.compress();
     }
 
 }

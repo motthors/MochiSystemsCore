@@ -16,7 +16,7 @@ import java.util.Map;
 public class BlocksScanner {
 
     private byte progressState = 0; // 0:no craft 1:isCrafting 2:OnComplete
-    private BlocksCompressor compressor;
+    private BlocksCompressor compressor = new BlocksCompressor();;
     private IBLockCopyHandler handler;
     private boolean isDrawEntity;
     private NBTTagCompound nbt = new NBTTagCompound();
@@ -52,7 +52,8 @@ public class BlocksScanner {
 
     public float GetProgress()
     {
-        return (float) getNowBlockArrayIndex() / (float) getAllBlockNum();
+        return (float) getNowBlockArrayIndex() / (float) getAllBlockNum() * 9/10
+                + compressor.zipCompressor.currentProgress() * 1/10;
     }
 
     public void StartCopy(IBLockCopyHandler handler, int x, int y, int z, LimitFrame limit, boolean isDrawEntity)
@@ -70,7 +71,6 @@ public class BlocksScanner {
         progressState = 1;
         this.handler = handler;
         this.isDrawEntity = isDrawEntity;
-        this.compressor = new BlocksCompressor();
         setSrcPosition(
                 x+limit.getmx(), y+limit.getmy(), z+limit.getmz(),
                 x+limit.getxx(), y+limit.getxy(), z+limit.getxz());
