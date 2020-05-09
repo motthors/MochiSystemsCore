@@ -322,7 +322,7 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         if(stackSlot==null) stackSlot = tempStack;
         else
         {
-            if(stackSlot.hasTagCompound()) Logger.debugInfo( nbt.hashCode() + " : " + stackSlot.getTagCompound().hashCode());
+//            if(stackSlot.hasTagCompound()) Logger.debugInfo( nbt.hashCode() + " : " + stackSlot.getTagCompound().hashCode());
             if(Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode &&
                     stackSlot.hasTagCompound() &&
                     tempStack.getTagCompound().hashCode() == stackSlot.getTagCompound().hashCode())

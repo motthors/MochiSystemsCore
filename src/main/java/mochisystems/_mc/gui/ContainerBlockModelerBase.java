@@ -27,11 +27,6 @@ public abstract class ContainerBlockModelerBase extends Container {
 
     private void AddSlots()
     {
-        // player inventory
-        for (int i = 0; i < 9; ++i)
-        {
-            this.addSlotToContainer(new Slot(playerInventory, i, 0, 0));
-        }
         for (int vert = 0; vert < 3; ++vert)
         {
             for (int horz = 0; horz < 9; ++horz)
@@ -39,6 +34,11 @@ public abstract class ContainerBlockModelerBase extends Container {
                 int index = vert * 9 + horz + 9;
                 this.addSlotToContainer(new Slot(playerInventory, index, 0, 0));
             }
+        }
+        // player inventory
+        for (int i = 0; i < 9; ++i)
+        {
+            this.addSlotToContainer(new Slot(playerInventory, i, 0, 0));
         }
     }
 

@@ -110,8 +110,8 @@ public class BlocksRenderer {
             -blockAccess.originalCorePosX - 1.5f,
             -blockAccess.originalCorePosY - 1.5f,
             -blockAccess.originalCorePosZ - 1.5f);
-        TextureManager texturemanager = TileEntityRendererDispatcher.instance.field_147553_e;
-        texturemanager.bindTexture(TextureMap.locationBlocksTexture);
+//        TextureManager texturemanager = TileEntityRendererDispatcher.instance.field_147553_e;
+//        texturemanager.bindTexture(TextureMap.locationBlocksTexture);
 
         GL11.glDisable(GL11.GL_LIGHTING);
 
