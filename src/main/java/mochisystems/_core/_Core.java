@@ -30,6 +30,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 @Mod(
         modid = _Core.MODID,
@@ -125,4 +126,8 @@ public class _Core {
         texturemanager.bindTexture(TextureMap.locationBlocksTexture);
     }
 
+    public String I18n(String uri)
+    {
+        return StatCollector.translateToLocal(uri);
+    }
 }
