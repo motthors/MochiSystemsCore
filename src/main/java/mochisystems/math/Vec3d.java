@@ -74,6 +74,14 @@ public class Vec3d {
 		return this;
 	}
 
+	public Vec3d add(double x, double y, double z)
+	{
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		return this;
+	}
+
 	public Vec3d sub(Vec3d that)
 	{
 		this.x -= that.x;
@@ -87,6 +95,14 @@ public class Vec3d {
 		this.x *= v.x;
 		this.y *= v.y;
 		this.z *= v.z;
+		return this;
+	}
+
+	public Vec3d mul(double x, double y, double z)
+	{
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
 		return this;
 	}
 

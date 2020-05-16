@@ -19,6 +19,11 @@ public class GuiLabel implements IGuiElement {
         this.fontRenderer = fontRenderer;
     }
 
+    public void Update()
+    {
+
+    }
+
     public void Draw(int mouseX, int mouseY)
     {
         fontRenderer.drawStringWithShadow(text, posX, posY, color);

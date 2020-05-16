@@ -71,14 +71,6 @@ public class GuiFormatedTextField extends GuiTextField implements IGuiElement {
 		}
 	}
 
-	public void UpdateText()
-	{
-		if(!isFocused())
-		{
-			setText(updateText.get());
-		}
-	}
-
 	public void changeColor(int color)
 	{
 		BackgroundColor = color;
@@ -111,6 +103,9 @@ public class GuiFormatedTextField extends GuiTextField implements IGuiElement {
 	}
 	public int GetWidth(){ return width; }
 	public int GetHeight(){return height;}
+	public void Update(){
+		if(!isFocused()) setText(updateText.get());
+	}
 	public void Draw(int mouseX, int mouseY)
 	{
 		if(yPosition > 0) drawTextBox();

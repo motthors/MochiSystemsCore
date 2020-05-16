@@ -18,7 +18,7 @@ public abstract class GuiDragController {
     private final Vec3d vecForCamera = new Vec3d();
     private OrientCameraHooker.CameraHooker CameraPreHook = this::CameraPreProc;
     private OrientCameraHooker.CameraHooker CameraPostHook = this::CameraPostProc;
-    int originalX, originalY, originalZ;
+    private int originalX, originalY, originalZ;
 
     public float CurrentCameraDistance(){return cameraDistanceTemp;}
 

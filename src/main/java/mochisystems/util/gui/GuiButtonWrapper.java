@@ -50,6 +50,7 @@ public class GuiButtonWrapper extends GuiButtonExt implements IGuiElement {
     public void MouseClicked(int x, int y, int buttonId)
     {
     }
+    public void Update(){}
     public void Draw(int mouseX, int mouseY)
     {
         drawButton(Minecraft.getMinecraft(), mouseX, mouseY);

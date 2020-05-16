@@ -9,6 +9,7 @@ public interface IGuiElement {
     int GetPositionY();
     int GetWidth();
     int GetHeight();
+    void Update();
     void Draw(int mouseX, int mouseY);
     void MouseClicked(int x, int y, int buttonId);
     void Clicked();

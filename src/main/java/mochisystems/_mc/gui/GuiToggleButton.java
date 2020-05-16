@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GuiToggleButton extends GuiButtonExt implements IGuiElement {
 
@@ -14,13 +15,17 @@ public class GuiToggleButton extends GuiButtonExt implements IGuiElement {
     private String OffString;
     private String OnString;
     private Consumer<Boolean> action;
+    private Supplier<Boolean> supplier;
 
-    public GuiToggleButton(int id, int xPos, int yPos, int width, int height, String OffString, String OnString, boolean defToggle, Consumer<Boolean> action) {
-        super(id, xPos, yPos, width, height, defToggle ? OnString : OffString);
-        isOn = defToggle;
+    public GuiToggleButton(int id, int xPos, int yPos, int width, int height,
+                           String OffString, String OnString,
+                           Supplier<Boolean> supplier, Consumer<Boolean> action) {
+        super(id, xPos, yPos, width, height, supplier.get() ? OnString : OffString);
+        isOn = supplier.get();
         this.OffString = OffString;
         this.OnString = OnString;
         this.action = action;
+        this.supplier = supplier;
     }
 
     public void Clicked()
@@ -88,6 +93,15 @@ public class GuiToggleButton extends GuiButtonExt implements IGuiElement {
                 buttonText = mc.fontRenderer.trimStringToWidth(buttonText, width - 6 - ellipsisWidth).trim() + "...";
 
             this.drawCenteredString(mc.fontRenderer, buttonText, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, color);
+        }
+    }
+
+    @Override
+    public void Update()
+    {
+        if(isOn != supplier.get())
+        {
+            SetState(supplier.get());
         }
     }
 

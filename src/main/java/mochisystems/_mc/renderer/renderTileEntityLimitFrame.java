@@ -16,24 +16,19 @@ public class renderTileEntityLimitFrame extends TileEntitySpecialRenderer{
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(_Core.MODID,"textures/limitline.png");
 	
-	public void renderTileEntityAt(ILimitLine t, double x, double y, double z, float f)
-	{
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
-		t.render(tessellator);
-	}
-
 	@Override
 	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
 	{
 		this.bindTexture(TEXTURE);
-		GL11.glDisable(GL11.GL_CULL_FACE); // �J�����OOFF
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 
-		renderTileEntityAt((ILimitLine)t,x,y,z,f);
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		((ILimitLine)t).render(tessellator);
 
-		GL11.glEnable(GL11.GL_CULL_FACE); // �J�����OON
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 }

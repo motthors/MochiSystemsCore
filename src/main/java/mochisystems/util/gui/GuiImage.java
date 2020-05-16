@@ -20,6 +20,11 @@ public class GuiImage implements IGuiElement{
         this.height = height;
     }
 
+    public void Update()
+    {
+
+    }
+
     @Override
     public void Draw(int mouseX, int mouseY)
     {

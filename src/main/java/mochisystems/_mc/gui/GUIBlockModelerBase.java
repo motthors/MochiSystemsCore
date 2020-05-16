@@ -58,6 +58,7 @@ public abstract class GUIBlockModelerBase extends GuiContainer {
     {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
+        int y = Mouse.getEventY();
         dragController.handleMouseWheel(i);
     }
 

@@ -4,6 +4,7 @@ import mochisystems._mc.gui.GuiToggleButton;
 import net.minecraft.client.gui.FontRenderer;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GuiUtil {
 
@@ -73,7 +74,7 @@ public class GuiUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static void addCheckButton(GuiGroupCanvas Canvas, FontRenderer font, int group, int posx, int posy, Boolean bool, String Description, Consumer<Boolean> onToggle)
+    public static void addCheckButton(GuiGroupCanvas Canvas, FontRenderer font, int group, int posx, int posy, Supplier<Boolean> bool, String Description, Consumer<Boolean> onToggle)
     {
         GuiToggleButton button = new GuiToggleButton(0, posx, posy, 18, 18, "", "", bool, onToggle);
         Canvas.Register(group, button);

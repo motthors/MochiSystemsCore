@@ -19,7 +19,7 @@ public class GuiGroupCanvas {
         private List<IGuiDraggable> draggableList = new ArrayList<>();
         public boolean active;
         public int offsetX, offsetY;
-        public Vec3d scale;
+        public final Vec3d scale = Vec3d.One.New();
     }
 
     private Minecraft mc;
@@ -68,6 +68,18 @@ public class GuiGroupCanvas {
         } else {
             g.offsetX = x;
             g.offsetY = y;
+        }
+    }
+
+    public void SetScale(int groupId, float x, float y, float z, boolean relative)
+    {
+        if (!GroupTree.containsKey(groupId)) GroupTree.put(groupId, new Group());
+        Group g = GroupTree.get(groupId);
+        if (relative) {
+            g.scale.add(x, y, z);
+        }
+        else{
+            g.scale.SetFrom(x, y, z);
         }
     }
 
@@ -133,9 +145,9 @@ public class GuiGroupCanvas {
         {
             Group g = GroupTree.get(key);
             if(!g.active)continue;
-            for(GuiFormatedTextField text : g.textFieldList)
+            for(IGuiElement e : g.elements)
             {
-                text.UpdateText();
+                e.Update();
             }
         }
     }
@@ -145,13 +157,17 @@ public class GuiGroupCanvas {
         for(int key : GroupTree.keySet())
         {
             Group g = GroupTree.get(key);
+            GL11.glPushMatrix();
             GL11.glTranslated(g.offsetX, g.offsetY, 0);
+            GL11.glScaled(g.scale.x, g.scale.y, g.scale.z);
+            int x = (int)((mousex - g.offsetX) / g.scale.x);
+            int y = (int)((mousey - g.offsetY) / g.scale.y);
             if(g.active)
             for(IGuiElement e : g.elements)
             {
-                e.Draw(mousex-g.offsetX, mousey-g.offsetY);
+                e.Draw(x, y);
             }
-            GL11.glTranslated(-g.offsetX, -g.offsetY, 0);
+            GL11.glPopMatrix();
         }
     }
 
@@ -160,8 +176,8 @@ public class GuiGroupCanvas {
         for(int key : GroupTree.keySet()) {
             Group g = GroupTree.get(key);
             if(!g.active)continue;
-            int _x = x - g.offsetX;
-            int _y = y - g.offsetY;
+            int _x = (int)((x- g.offsetX) / g.scale.x);
+            int _y = (int)((y- g.offsetY) / g.scale.y);
             for (GuiFormatedTextField text : g.textFieldList) {
                 text.mouseClicked(_x, _y, buttonId);
             }
@@ -181,6 +197,7 @@ public class GuiGroupCanvas {
                     dragged = drag;
                     dragStartPosX = dragPrevX = x;
                     dragStartPosY = dragPrevY = y;
+                    dragElementsGroup = g;
                     drag.SetStartPosX(drag.GetPositionX());
                 }
             }
@@ -209,12 +226,13 @@ public class GuiGroupCanvas {
     }
 
     private int dragPrevX, dragPrevY;
+    private Group dragElementsGroup;
     public void mouseClickMove(int x, int y, int event, long time)
     {
         if(dragged != null)
         {
-            int _x = x - dragPrevX;
-            int _y = y - dragPrevY;
+            int _x = (int)((x - dragPrevX) / dragElementsGroup.scale.x);
+            int _y = (int)((y - dragPrevY) / dragElementsGroup.scale.y);
             dragged.SetPosition(dragged.GetPositionX()+_x, dragged.GetPositionY()+_y);
             dragPrevX = x;
             dragPrevY = y;

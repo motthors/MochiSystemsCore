@@ -44,7 +44,13 @@ public class InterpolationTick {
 		now += add;
 		prev += add;
 	}
-	
+
+	public void roundNow()
+	{
+		if(now>180f)add(-360f);
+		else if(now<-180f)add(360f);
+	}
+
 	public void round()
 	{
 		if(now>180f)addAll(-360f);
