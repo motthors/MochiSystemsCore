@@ -47,6 +47,7 @@ public abstract class IBufferedRenderer {
     }
 
     protected void PreRender(){}
+    protected void PostRender(){}
 
     public final void Render()
     {
@@ -57,5 +58,6 @@ public abstract class IBufferedRenderer {
         }
         PreRender();
         GL11.glCallList(this.GetBufferID());
+        PostRender();
     }
 }

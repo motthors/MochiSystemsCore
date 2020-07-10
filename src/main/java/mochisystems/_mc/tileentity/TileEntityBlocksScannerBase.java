@@ -7,6 +7,9 @@ import mochisystems._core._Core;
 import mochisystems.blockcopier.*;
 import mochisystems.blockcopier.message.MessageSendModelData;
 import mochisystems.blockcopier.message.PacketHandler;
+import mochisystems.math.Math;
+import mochisystems.math.Quaternion;
+import mochisystems.math.Vec3d;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,6 +25,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import scala.tools.nsc.doc.base.comment.Body;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,9 +40,12 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
     public String modelName;
     public int copyNum = 1;
     public int copyMode = 0;
+    public int BodyGuide = 0; // 1:head, 2:left arm, 3, right arm, 4:body, 5:left reg, 6:right leg
     public boolean FlagDrawCore = true;
     public boolean FlagDrawEntity = false;
     public boolean isCoreConnector = false;
+    public float scale = 1f;
+    public float guideScale = 1f;
     protected boolean isOdd = false;
 
     protected int side;
@@ -52,6 +59,7 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
     // model item slot inventory
     protected ItemStack stackSlot;
 
+
     protected abstract BlocksScanner InstantiateBlocksCopier();
 
     public TileEntityBlocksScannerBase()
@@ -64,6 +72,7 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
     {
         this.side = side;
         resetFrameLength();
+        setRotAxis();
     }
 
     protected boolean isExistCore()
@@ -77,6 +86,28 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         copyNum += flag;
         if(copyNum > 100)copyNum = 100;
         if(copyNum < 1)copyNum = 1;
+    }
+
+    public void setBodyGuide(int idx)
+    {
+        BodyGuide = idx;
+        setScale(idx==0 ? 1 : 0.25f);
+        switch(idx)
+        {
+            case 2:
+            case 5: modelName = "L"; break;
+            case 3:
+            case 6: modelName = "R"; break;
+            case 1:
+            case 4: modelName = "Body"; break;
+        }
+    }
+
+    public void setScale(float s)
+    {
+        scale = s;
+        scale = Math.Clamp(scale, 0, 100);
+        guideScale = 1 / s;
     }
 
     public LimitFrame GetLimitFrame()
@@ -188,7 +219,11 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         LimitFrameLength = nbt.getInteger("framelen");
         LimitFrameWidth = nbt.getInteger("framewid");
         LimitFrameHeight = nbt.getInteger("frameheight");
+        BodyGuide = nbt.getInteger("BodyGuide");
+        scale = nbt.getFloat("scale");
+        guideScale = nbt.getFloat("guideScale");
         createVertex();
+        setRotAxis();
     }
 
     public void writeToNBT(NBTTagCompound nbt)
@@ -204,6 +239,9 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         nbt.setInteger("framelen", LimitFrameLength);
         nbt.setInteger("framewid", LimitFrameWidth);
         nbt.setInteger("frameheight", LimitFrameHeight);
+        nbt.setInteger("BodyGuide", BodyGuide);
+        nbt.setFloat("scale", scale);
+        nbt.setFloat("guideScale", guideScale);
     }
 
     //////////// IBLockCopyHandler ///////////
@@ -327,7 +365,7 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
                     stackSlot.hasTagCompound() &&
                     tempStack.getTagCompound().hashCode() == stackSlot.getTagCompound().hashCode())
             {
-                stackSlot.stackSize = Math.min(stackSlot.stackSize+1, stackSlot.getMaxStackSize());
+                stackSlot.stackSize = java.lang.Math.min(stackSlot.stackSize+1, stackSlot.getMaxStackSize());
             }
             stackSlot.setTagCompound(nbt);
         }
@@ -336,6 +374,24 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
 
 
     protected void RecieveExtBlockData(NBTTagCompound nbt){}
+
+
+
+    public float rotConst_meta2 = 0, rotMeta2_side = 0;
+    public Vec3d rotvecMeta2_side = new Vec3d(0, 0, 0);
+    private void setRotAxis()
+    {
+        switch(side)
+        {
+            case -1 : rotMeta2_side = 0;
+            case 0 : /*rotationAxis.y = 1;*/ rotvecMeta2_side.x = 1; rotMeta2_side = -90; break;
+            case 1 : /*rotationAxis.y =-1;*/ rotvecMeta2_side.x = 1; rotMeta2_side = 90; break;
+            case 2 : /*rotationAxis.z = 1;*/ rotvecMeta2_side.y = 1; rotMeta2_side = 0;  break;
+            case 3 : /*rotationAxis.z =-1;*/ rotvecMeta2_side.y = 1; rotMeta2_side = 180; break;
+            case 4 : /*rotationAxis.x = 1;*/ rotvecMeta2_side.y = 1; rotMeta2_side = 90; break;
+            case 5 : /*rotationAxis.x =-1;*/ rotvecMeta2_side.y = 1; rotMeta2_side = -90; break;
+        }
+    }
 
 
     /////////////////////////SidedInventry///////////////////////

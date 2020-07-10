@@ -58,8 +58,9 @@ public class MTYBlockAccess implements IBlockAccess{
 		public Block b;
 		private renderPiece(int _x,int _y,int _z,Block _b){x=_x;y=_y;z=_z;b=_b;}
 	}
-	ArrayList<renderPiece> listPrePass = new ArrayList<>();
-	ArrayList<renderPiece> listPostPass = new ArrayList<>();
+//	ArrayList<renderPiece> listPrePass = new ArrayList<>();
+//	ArrayList<renderPiece> listPostPass = new ArrayList<>();
+//	Block[][][] listPrePass = new Block[][][][][][];
     ArrayList<TileEntityPiece> listTileEntity = new ArrayList<>();
     ArrayList<Entity> listEntity = new ArrayList<>();
 
@@ -109,10 +110,9 @@ public class MTYBlockAccess implements IBlockAccess{
     private void _constructFromTag(NBTTagCompound nbt, Runnable postInitAction)
     {
         SetData(nbt);
-        if(_Core.proxy.checkSide().isClient())
+        if(worldObj.isRemote)
         {
             diffLight();
-//            blocksRenderer.CompileRenderer();
 			postInitAction.run();
 		}
         postInit();
@@ -175,6 +175,7 @@ public class MTYBlockAccess implements IBlockAccess{
 //					Logger.debugInfo("MTYBlockAccess : "+type.getLocalizedName()+"\t {"+x+"."+y+"."+z+"}");
                     if(!isExistBlock(type))continue;
 					setBlockAbsolute(type, blockmeta, x, y, z);
+					setLightLevel(type, x, y, z);
 					String tileName = new StringBuilder("tile.").append(x).append(".").append(y).append(".").append(z).toString();
                     if(nbt.hasKey(tileName))
                     {
@@ -191,6 +192,13 @@ public class MTYBlockAccess implements IBlockAccess{
                 }
             }
         }
+
+//		boolean isremote = _Core.proxy.checkSide().isClient();
+//		if(isremote)
+//		{
+//			SetRenderingList();
+//		}
+
         //entity
         for(int i=0; i<entitynum; ++i)
         {
@@ -275,32 +283,45 @@ public class MTYBlockAccess implements IBlockAccess{
 	{
         BlockArray[x][y][z].type = block;
         BlockArray[x][y][z].meta = meta;
-
-        boolean isremote = _Core.proxy.checkSide().isClient();
-        if(isremote)
-        {
-            SetRenderingList(block, x, y, z);
-        }
+//        if(meta!=0)Logger.debugInfo(""+meta);
 	}
 
-	private void SetRenderingList(Block block, int localX, int localY, int localZ)
-    {
-        if(localX >= sizeX-1 || localX <= 0) return;
-        if(localY >= sizeY-1 || localY <= 0) return;
-        if(localZ >= sizeZ-1 || localZ <= 0) return;
-
-        if(block.getRenderBlockPass()==0) blockNum += 1;
-        else blockNumPost += 1;
-
-        setLightLevel(block, localX, localY, localZ);
-
-        ArrayList<renderPiece> renderList = (block.getRenderBlockPass() == 0) ? listPrePass : listPostPass;
-        int worldX = WorldFromLocalX(localX);
-        int worldY = WorldFromLocalY(localY);
-        int worldZ = WorldFromLocalZ(localZ);
-//        Logger.debugInfo(block.toString()+":"+worldX+"."+worldY+"."+worldZ);
-        renderList.add(new renderPiece(worldX, worldY, worldZ, block));
-    }
+//	private void SetRenderingList()
+//    {
+//		int csizeX = sizeX / 16 + 1;
+//		int csizeY = sizeY / 16 + 1;
+//		int csizeZ = sizeZ / 16 + 1;
+//		for(int cx=0;cx<csizeX;++cx) {
+//			for(int cz=0;cz<csizeZ;++cz){
+//				for(int cy=0;cy<csizeY;++cy){
+//					for (int _x = 0; _x < 16; ++_x) {
+//						int x = _x + cx * 16;
+//						for (int _z = 0; _z < 16; ++_z) {
+//							int z = _z + cz * 16;
+//							for (int _y = 0; _y < 16; ++_y) {
+//								int y = _y + cy * 16;
+//								if(x >= sizeX-1 || x <= 0) return;
+//								if(y >= sizeY-1 || y <= 0) return;
+//								if(z >= sizeZ-1 || z <= 0) return;
+//
+//								Block block = getBlock(x, y, z);
+//								if(block.getRenderBlockPass()==0) blockNum += 1;
+//								else blockNumPost += 1;
+//
+//								setLightLevel(block, x, y, z);
+//
+//								ArrayList<renderPiece> renderList = (block.getRenderBlockPass() == 0) ? listPrePass : listPostPass;
+//								int worldX = WorldFromLocalX(x);
+//								int worldY = WorldFromLocalY(y);
+//								int worldZ = WorldFromLocalZ(z);
+//								renderList.add(new renderPiece(worldX, worldY, worldZ, block));
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//    }
 
 	public void setTileEntity(TileEntity tile, int worldX, int worldY, int worldZ)
 	{

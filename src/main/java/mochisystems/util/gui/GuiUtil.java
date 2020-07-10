@@ -34,7 +34,7 @@ public class GuiUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static void addButton4(GuiGroupCanvas Canvas, int group, int posx, int posy, String label, int flag,
+    public static void addButton4(GuiGroupCanvas Canvas, int group, int posx, int posy,
                                  Runnable action1, Runnable action2, Runnable action3, Runnable action4)
     {
         int offsetx = -19;
