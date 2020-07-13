@@ -48,6 +48,7 @@ public class MTYBlockAccess implements IBlockAccess{
 	protected int sizeX, sizeY, sizeZ;
 	protected int CorePosX, CorePosY, CorePosZ;
 	protected int localCorePosX, localCorePosY, localCorePosZ;
+	private boolean TrueCopy;
 //	private int constructSide,CoreSide;
 
 	// for biome or ctmRandom
@@ -121,6 +122,7 @@ public class MTYBlockAccess implements IBlockAccess{
     {
         // <- Constructor
         int side = nbt.getByte("constructorside");
+        TrueCopy = nbt.getBoolean("TrueCopy");
         originalCorePosX = nbt.getInteger("copiedPosX");
         originalCorePosY = nbt.getInteger("copiedPosY");
         originalCorePosZ = nbt.getInteger("copiedPosZ");
@@ -364,27 +366,24 @@ public class MTYBlockAccess implements IBlockAccess{
 		int localX = LocalFromWorldX(x);
 		int localY = LocalFromWorldY(y);
 		int localZ = LocalFromWorldZ(z);
-		if(localX < 0)
-			return Blocks.air;
-		else if(localX >= sizeX)
-			return Blocks.air;
-		if(localY < 0)
-			return Blocks.air;
-		else if(localY >= sizeY)
-			return Blocks.air;
-		if(localZ < 0)
-			return Blocks.air;
-		else if(localZ >= sizeZ)
-			return Blocks.air;
-		return BlockArray[localX][localY][localZ].type;
+		return getBlockOrgPos(localX, localY, localZ);
 	}
 	public Block getBlockOrgPos(int x, int y, int z)
 	{
-		try{
-			return BlockArray[x][y][z].type;
-		}catch(java.lang.ArrayIndexOutOfBoundsException e){
+		int limit = TrueCopy ? 0 : 1;
+		if(x < limit)
 			return Blocks.air;
-		}
+		else if(x >= sizeX - limit)
+			return Blocks.air;
+		if(y < limit)
+			return Blocks.air;
+		else if(y >= sizeY - limit)
+			return Blocks.air;
+		if(z < limit)
+			return Blocks.air;
+		else if(z >= sizeZ - limit)
+			return Blocks.air;
+		return BlockArray[x][y][z].type;
 	}
 	
 	@Override

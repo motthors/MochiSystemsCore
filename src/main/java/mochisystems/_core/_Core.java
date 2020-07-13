@@ -5,7 +5,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -13,13 +12,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mochisystems._mc.block.BlockRemoteController;
 import mochisystems._mc.block.BlockRemoteReceiver;
 import mochisystems._mc.block.itemBlockRemoteController;
+import mochisystems._mc.item.ItemWrenchPlaceBlock;
 import mochisystems._mc.tileentity.tileEntityRemoteController;
 import mochisystems._mc.tileentity.tileEntityRemoteReceiver;
-import mochisystems.blockcopier.message.PacketHandler;
+import mochisystems.message.PacketHandler;
 import mochisystems._core.proxy.IProxy;
 import mochisystems.bufferedrenderer.SmartBufferManager;
 import mochisystems.handler.TickEventHandler;
-import mochisystems.util.gui.GuiDragController;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -53,6 +52,8 @@ public class _Core {
     public static Block blockRemoteController = new BlockRemoteController();
     public static Block blockRemoteReceiver = new BlockRemoteReceiver();
     public static ItemBlock ItemRemote = new ItemBlock(blockRemoteController);
+
+    public static Item ItemStick = new ItemWrenchPlaceBlock();
 
     public static CreativeTabs Tab = new CreativeTabs("MochiSystemsCore"){
         @Override
@@ -88,6 +89,19 @@ public class _Core {
                 .setBlockTextureName(_Core.MODID+":remoteController")
                 .setCreativeTab(Tab);
         GameRegistry.registerBlock(blockRemoteController, itemBlockRemoteController.class, "Ferris.RemoteController");
+
+        ItemStick.setCreativeTab(Tab);
+        ItemStick.setUnlocalizedName("BlockPlacer");
+        ItemStick.setTextureName(MODID+":wrench_p");
+        ItemStick.setMaxStackSize(1);
+        GameRegistry.registerItem(ItemStick, "ItemWrenchPlaceBlock");
+        GameRegistry.addRecipe(new ItemStack(ItemStick,1,0),
+                "D  ",
+                " I ",
+                "  I",
+                'D',Blocks.dirt,
+                'I',Items.stick
+        );
 
         GameRegistry.addRecipe(new ItemStack(blockRemoteController),
                 "OTO",

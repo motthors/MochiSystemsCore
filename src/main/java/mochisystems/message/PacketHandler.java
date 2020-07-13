@@ -1,4 +1,4 @@
-package mochisystems.blockcopier.message;
+package mochisystems.message;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;

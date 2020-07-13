@@ -5,17 +5,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mochisystems._core.Logger;
 import mochisystems._core._Core;
 import mochisystems.blockcopier.*;
-import mochisystems.blockcopier.message.MessageSendModelData;
-import mochisystems.blockcopier.message.PacketHandler;
+import mochisystems.message.MessageSendModelData;
+import mochisystems.message.PacketHandler;
 import mochisystems.math.Math;
-import mochisystems.math.Quaternion;
 import mochisystems.math.Vec3d;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -25,7 +23,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import scala.tools.nsc.doc.base.comment.Body;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,13 +34,14 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
 
     // Settings
     protected final BlocksScanner scanner = InstantiateBlocksCopier();
-    public String modelName;
+    private String modelName;
     public int copyNum = 1;
     public int copyMode = 0;
     public int BodyGuide = 0; // 1:head, 2:left arm, 3, right arm, 4:body, 5:left reg, 6:right leg
-    public boolean FlagDrawCore = true;
+    private boolean FlagDrawCore = true;
     public boolean FlagDrawEntity = false;
     public boolean isCoreConnector = false;
+    public boolean TrueCopy = false;
     public float scale = 1f;
     public float guideScale = 1f;
     protected boolean isOdd = false;
@@ -84,7 +82,7 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
     public void setCopyNum(int flag)
     {
         copyNum += flag;
-        if(copyNum > 100)copyNum = 100;
+        if(copyNum > 1000)copyNum = 1000;
         if(copyNum < 1)copyNum = 1;
     }
 
@@ -150,6 +148,11 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
     public void toggleFlagFrameLenIsOdd()
     {
         isOdd = !isOdd;
+    }
+
+    public void toggleFlagTrueCopy()
+    {
+        TrueCopy = !TrueCopy;
     }
 
     public void rotateCopyMode()
@@ -222,6 +225,8 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         BodyGuide = nbt.getInteger("BodyGuide");
         scale = nbt.getFloat("scale");
         guideScale = nbt.getFloat("guideScale");
+        isCoreConnector = nbt.getBoolean("isCoreConnector");
+        TrueCopy = nbt.getBoolean("TrueCopy");
         createVertex();
         setRotAxis();
     }
@@ -242,6 +247,8 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         nbt.setInteger("BodyGuide", BodyGuide);
         nbt.setFloat("scale", scale);
         nbt.setFloat("guideScale", guideScale);
+        nbt.setBoolean("isCoreConnector", isCoreConnector);
+        nbt.setBoolean("TrueCopy", TrueCopy);
     }
 
     //////////// IBLockCopyHandler ///////////
@@ -369,9 +376,19 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
             }
             stackSlot.setTagCompound(nbt);
         }
-
     }
 
+    @Override
+    public void registerExternalParam(NBTTagCompound nbt)
+    {
+        // => FerrisPartBase
+        nbt.setString("ModelName", modelName.isEmpty()?"-NoName-":modelName);
+
+        // => BlockReplicator
+        nbt.setBoolean("isdrawingcore",FlagDrawCore);
+        nbt.setByte("constructorside", (byte)side);
+        nbt.setBoolean("TrueCopy", TrueCopy);
+    }
 
     protected void RecieveExtBlockData(NBTTagCompound nbt){}
 
@@ -393,6 +410,10 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
         }
     }
 
+
+    public boolean GetFlagDrawCore(){ return FlagDrawCore; }
+    public String GetModelName(){ return modelName; }
+    public void SetModelName(String t){ modelName = t; }
 
     /////////////////////////SidedInventry///////////////////////
 

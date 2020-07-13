@@ -11,6 +11,7 @@ import mochisystems.manager.EntityWearingModelManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy implements IProxy{
@@ -20,6 +21,7 @@ public class ClientProxy implements IProxy{
 		_Core.Instance.smartBufferManager = new SmartBufferManager();
         FMLCommonHandler.instance().bus().register(_Core.Instance.smartBufferManager);
 		TickEventHandler.AddClientTickPostListener(EntityWearingModelManager::UpdateModel);
+		MinecraftForge.EVENT_BUS.register(_Core.ItemStick);
 	}
 
 
