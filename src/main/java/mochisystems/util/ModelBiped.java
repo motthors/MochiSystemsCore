@@ -2,7 +2,7 @@ package mochisystems.util;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import mochisystems.handler.TickEventHandler;
+import mochisystems._mc._1_7_10.eventhandler.TickEventHandler;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;

@@ -1,5 +1,6 @@
 package mochisystems.blockcopier;
 
+import mochisystems._mc._1_7_10.world.MTYBlockAccess;
 import mochisystems.util.HashMaker;
 import org.lwjgl.opengl.GL11;
 
@@ -39,9 +40,9 @@ public class BlocksRenderer {
     private void CompileRneder(int pass) {
         LinkedList<CopiedBlockRenderer> renderers = pass == 0 ? renderingList : postRenderingList;
 
-        int csizeX = blockAccess.sizeX / 16 + 1;
-        int csizeY = blockAccess.sizeY / 16 + 1;
-        int csizeZ = blockAccess.sizeZ / 16 + 1;
+        int csizeX = blockAccess.getSizeX() / 16 + 1;
+        int csizeY = blockAccess.getSizeY() / 16 + 1;
+        int csizeZ = blockAccess.getSizeZ() / 16 + 1;
         int startHash = 1;
         for (int cx = 0; cx < csizeX; ++cx) {
             for (int cz = 0; cz < csizeZ; ++cz) {
@@ -49,13 +50,13 @@ public class BlocksRenderer {
                     HashMaker hasher = new HashMaker(startHash);
                     for (int _x = 0; _x < 16; ++_x) {
                         int x = _x + cx * 16 + 1;
-                        if (x >= blockAccess.sizeX - 1 || x <= 0) continue;
+                        if (x >= blockAccess.getSizeX() - 1 || x <= 0) continue;
                         for (int _z = 0; _z < 16; ++_z) {
                             int z = _z + cz * 16 + 1;
-                            if (z >= blockAccess.sizeZ - 1 || z <= 0) continue;
+                            if (z >= blockAccess.getSizeZ() - 1 || z <= 0) continue;
                             for (int _y = 0; _y < 16; ++_y) {
                                 int y = _y + cy * 16 + 1;
-                                if (y >= blockAccess.sizeY - 1 || y <= 0) continue;
+                                if (y >= blockAccess.getSizeY() - 1 || y <= 0) continue;
                                 Block b = blockAccess.getBlockOrgPos(x, y, z);
                                 if(b.getRenderBlockPass() != pass) continue;
                                 if (b == Blocks.air) continue;
@@ -92,21 +93,21 @@ public class BlocksRenderer {
 //        Logger.debugInfo("chunk:"+cx+"."+cy+"."+cz+":"+pass);
         for (int _x = 0; _x < 16; ++_x) {
             int x = _x + cx * 16 + 1;
-            if (x >= blockAccess.sizeX - 1 || x <= 0) continue;
+            if (x >= blockAccess.getSizeX() - 1 || x <= 0) continue;
             for (int _z = 0; _z < 16; ++_z) {
                 int z = _z + cz * 16 + 1;
-                if (z >= blockAccess.sizeZ - 1 || z <= 0) continue;
+                if (z >= blockAccess.getSizeZ() - 1 || z <= 0) continue;
                 for (int _y = 0; _y < 16; ++_y) {
                     int y = _y + cy * 16 + 1;
-                    if (y >= blockAccess.sizeY - 1 || y <= 0) continue;
+                    if (y >= blockAccess.getSizeY() - 1 || y <= 0) continue;
                     Block b = blockAccess.getBlockOrgPos(x, y, z);
                     if(b.getRenderBlockPass() != pass) continue;
                     if (b == Blocks.air) continue;
 //                    Logger.debugInfo(x+"."+y+"."+z+":"+blockAccess.getBLockMetadata_AbsolutePos(x,y,z)+" : "+b.getUnlocalizedName());
                     renderBlocks.renderBlockByRenderType(b,
-                            x+blockAccess.originalCorePosX-blockAccess.localCorePosX,
-                            y+blockAccess.originalCorePosY-blockAccess.localCorePosY,
-                            z+blockAccess.originalCorePosZ-blockAccess.localCorePosZ);
+                            x+blockAccess.originalCorePosX-blockAccess.GetLocalCorePosX(),
+                            y+blockAccess.originalCorePosY-blockAccess.GetLocalCorePosY(),
+                            z+blockAccess.originalCorePosZ-blockAccess.GetLocalCorePosZ());
         //            Logger.debugInfo(Block.blockRegistry.getNameForObject(piece.b));
                 }
             }

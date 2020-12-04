@@ -1,5 +1,6 @@
 package mochisystems.blockcopier;
 
+import mochisystems._mc._1_7_10.world.MTYBlockAccess;
 import mochisystems.util.IModel;
 import mochisystems.util.IModelController;
 import net.minecraft.nbt.NBTTagCompound;

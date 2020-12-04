@@ -1,7 +1,7 @@
 package mochisystems.util;
 
 import mochisystems.blockcopier.IModelCollider;
-import mochisystems.blockcopier.MTYBlockAccess;
+import mochisystems._mc._1_7_10.world.MTYBlockAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 

@@ -1,6 +1,6 @@
 package mochisystems.math;
 
-import mochisystems._core.Logger;
+import mochisystems._mc._1_7_10._core.Logger;
 import net.minecraft.util.AxisAlignedBB;
 
 public class OBB extends AxisAlignedBB {

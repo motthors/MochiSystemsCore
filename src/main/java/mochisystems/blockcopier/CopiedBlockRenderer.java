@@ -1,7 +1,7 @@
 package mochisystems.blockcopier;
 
-import mochisystems._core._Core;
-import mochisystems.bufferedrenderer.IBufferedRenderer;
+import mochisystems._mc._1_7_10._core._Core;
+import mochisystems._mc._1_7_10.bufferedrenderer.IBufferedRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 

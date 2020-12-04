@@ -1,6 +1,6 @@
 package mochisystems.blockcopier;
 
-import mochisystems._mc.block.BlockRemoteController;
+import mochisystems._mc._1_7_10.block.BlockRemoteController;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;

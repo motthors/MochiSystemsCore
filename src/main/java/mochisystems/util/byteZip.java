@@ -6,7 +6,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-import mochisystems._core.Logger;
+import mochisystems._mc._1_7_10._core.Logger;
 
 public class byteZip {
 

@@ -1,6 +1,6 @@
 package mochisystems.util.gui;
 
-import mochisystems._mc.gui.GuiToggleButton;
+import mochisystems._mc._1_7_10.gui.GuiToggleButton;
 import net.minecraft.client.gui.FontRenderer;
 
 import java.util.function.Consumer;
