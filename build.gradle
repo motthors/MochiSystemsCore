@@ -1,10 +1,13 @@
 sourceSets.main {
  	java.srcDirs project.projectDir.name
     resources.srcDirs project.projectDir.name
+    java {
+        include '**/_mc/_1_7_10/**'
+    }
 }
 
 apply from: 'gradle/version.gradle'
-//version = "1.0alpha"
+version = "1.0alpha"
 
 tasks.withType(Jar)
 {
@@ -19,17 +22,9 @@ dependencies
 }
 
 jar {
-    sourceSets {
-        main {
-            java {
-                exclude '**/_mc/**'
-                include '**/_mc/_1_7_10/**'
-            }
-        }
-    }
     manifest {
-        //attributes 'FMLCorePlugin': 'erc.rewriteClass.loadingPlugin'
-        //attributes 'FMLCorePluginContainsFMLMod': true
+        attributes 'FMLCorePlugin': 'erc.rewriteClass.loadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': true
     }
 }
 
