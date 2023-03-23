@@ -1,0 +1,14 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "jp.mochisystems.core._mc.mixin",
+  "refmap": "refmap.mochisystemscore.json",
+  "mixins": [
+    "MixinEntityLivingBase"
+  ],
+  "client": [
+    "MixinCamera",
+    "MixinPlayerRenderer",
+    "MixinRenderGlobal"
+  ],
+  "server": []
+}

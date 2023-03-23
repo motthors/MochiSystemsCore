@@ -1,0 +1,37 @@
+gui.constructor.switch.coreconnector=コア位置コネクタ化
+
+tile.FerrisRemoteController.name=リモコンブロック
+tile.RemoteReceiver.name=Remote Receiver
+tile.Cutter.name=切り取りブロック
+tile.FileManager.name=外部ファイル読み書きブロック
+
+
+usage.stick=[使い方]\ 右クリックで空中にブロックを置く
+
+message.remotecon.notag=エラー：まずShift+右クリックで座標を登録してください
+usage.remote=[使い方]\ スニーク＋右クリックで座標を登録\ 座標が登録してあれば、設置できます\ 設置したブロックは右クリックすると、\ 登録した座標を右クリックしたことになります
+usage.fileio=[使い方]\ ExRollerCoasterやMineFerrisWheelなどのブロックモデル情報をセーブロードできます
+
+
+gui.NotEnableTilt=現在任意角度無効
+gui.core.text.reset=リセット
+
+gui.scan.text.scan=スキャン
+gui.scan.text.update=更新
+
+gui.scan.text.truecopy=正確にコピー
+gui.scan.text.showcore=コア表示
+gui.scan.text.showmodel=モデル表示
+gui.scan.text.scanmobs=モブもコピー
+gui.scan.text.repeat=繰り返し
+
+gui.core.text.width=横幅
+gui.core.text.height=高さ
+
+gui.core.text.scale=サイズ倍率
+gui.core.text.rotate=傾き
+gui.core.text.offset=オフセット
+
+gui.fileio.text.rename=名前変更
+gui.fileio.text.save=ファイルに保存
+gui.fileio.text.load=ファイルからロード

@@ -1,0 +1,36 @@
+gui.constructor.switch.coreconnector=CorePosConnector
+
+tile.RemoteController.name=Remote Controller
+tile.RemoteReceiver.name=Remote Receiver
+tile.Cutter.name=Cutter
+tile.FileManager.name=File IO Block
+
+
+usage.stick=[Usage]\ Right click to place block in the air
+
+message.remotecon.notag=First, sneak + right click a block to register position.
+usage.remote=[Usage]\ Sneak + right-click to register position\ If this position is registered, you can place block\ If you right-click on the placed block, you will be right-clicking on the registered position
+usage.fileio=[Usage]\　You can save and load block model information of ExRollerCoaster and MineFerrisWheel
+
+
+gui.NotEnableTilt=rotation is invalid
+gui.core.text.reset=Reset
+
+gui.scan.text.scan=Create!
+gui.scan.text.update=Update
+
+gui.scan.text.truecopy=True copy
+gui.scan.text.showcore=Show core
+gui.scan.text.scanmobs=Scan mobs
+gui.scan.text.repeat=Repeat
+
+gui.core.text.width=Width
+gui.core.text.height=Height
+
+gui.core.text.scale=Scale
+gui.core.text.rotate=Rotate
+gui.core.text.offset=Offset
+
+gui.fileio.text.rename=Rename
+gui.fileio.text.save=Save
+gui.fileio.text.load=Load
