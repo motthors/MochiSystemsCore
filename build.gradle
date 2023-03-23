@@ -3,7 +3,7 @@ sourceSets.main {
     resources.srcDirs project.projectDir.name
 }
 
-version = "1.0beta1"
+version = "forge-1.12.2-1.0beta2"
 
 
 jar {

@@ -107,7 +107,7 @@ public class itemBlockBlockModelTester extends ItemBlock implements IItemBlockMo
 			}
 			public void ReceivePartial(int idx, int total, byte[] bytes) {
 			}
-			public void OnCompleteReceive(NBTTagCompound nbt) {
+			public void OnCompleteReceive(NBTTagCompound nbt, EntityPlayer player) {
 
 			}
 		};

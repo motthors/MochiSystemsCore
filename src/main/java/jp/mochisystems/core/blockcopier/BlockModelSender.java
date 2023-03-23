@@ -2,6 +2,7 @@ package jp.mochisystems.core.blockcopier;
 
 import jp.mochisystems.core._mc.message.MessageSendModelData;
 import jp.mochisystems.core._mc.message.PacketHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +15,7 @@ public class BlockModelSender {
 
     public interface IHandler {
         BlockModelSender GetSender();
-        void OnCompleteReceive(NBTTagCompound nbt);
+        void OnCompleteReceive(NBTTagCompound nbt, EntityPlayer player);
     }
 
     IHandler handler;
@@ -51,7 +52,7 @@ public class BlockModelSender {
 
 
     private byte[][] arrayDataIndex;
-    public void ReceivePartialBlockData(int idx, int total, byte[] bytes)
+    public void ReceivePartialBlockData(int idx, int total, byte[] bytes, EntityPlayer player)
     {
         if(arrayDataIndex == null || arrayDataIndex.length != total) arrayDataIndex = new byte[total][];
         arrayDataIndex[idx] = bytes;
@@ -81,6 +82,6 @@ public class BlockModelSender {
             return;
         }
 
-        handler.OnCompleteReceive(nbt);
+        handler.OnCompleteReceive(nbt, player);
     }
 }

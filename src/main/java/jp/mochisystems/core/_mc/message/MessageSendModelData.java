@@ -65,7 +65,7 @@ public class MessageSendModelData implements IMessage {
 			if (!(tile instanceof BlockModelSender.IHandler)) return null;
 			BlockModelSender.IHandler controller = (BlockModelSender.IHandler) tile;
 
-			controller.GetSender().ReceivePartialBlockData(message.idx, message.total, message.arrayByte);
+			controller.GetSender().ReceivePartialBlockData(message.idx, message.total, message.arrayByte, ctx.getServerHandler().player);
 			return null;
 		}
 	}

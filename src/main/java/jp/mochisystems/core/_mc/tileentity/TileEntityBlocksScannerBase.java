@@ -199,9 +199,9 @@ public abstract class TileEntityBlocksScannerBase extends TileEntity
 
 
     @Override
-    public void OnCompleteReceive(NBTTagCompound nbt)
+    public void OnCompleteReceive(NBTTagCompound nbt, EntityPlayer player)
     {
-        boolean isCreative = Minecraft.getMinecraft().player.capabilities.isCreativeMode;
+        boolean isCreative = player.capabilities.isCreativeMode;
         if(stackSlot.isEmpty()) {
             if(isCreative){
                 stackSlot = InstantiateModelItem();

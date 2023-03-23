@@ -5,11 +5,11 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import jp.mochisystems.core._mc._core.Logger;
 import jp.mochisystems.core._mc._core._Core;
 import jp.mochisystems.core.blockcopier.BlocksScanner;
 import jp.mochisystems.core.blockcopier.IBLockCopyHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -89,7 +89,7 @@ public class TileEntityFileManager extends TileEntityBlocksScannerBase {
 		return null;
 	}
 
-	public void OnCompleteReceive(NBTTagCompound nbt) {
+	public void OnCompleteReceive(NBTTagCompound nbt, EntityPlayer player) {
 
 		stackSlot = new ItemStack(nbt);
 		world.playSound(null,pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, 0.9F);
