@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "sss",
+    "sps",
+    "sss"
+  ],
+  "key":
+  {
+    "s":
+    {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "p":
+    {
+      "item": "minecraft:paper",
+      "data": 0
+    }
+  },
+  "result":
+  {
+    "item": "mochisystemscore:filemanager",
+    "data": 0,
+    "count": 1
+  }
+}

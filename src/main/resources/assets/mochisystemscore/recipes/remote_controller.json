@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "sss",
+    "ses",
+    "sss"
+  ],
+  "key":
+  {
+    "s":
+    {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "e":
+    {
+      "item": "minecraft:ender_pearl",
+      "data": 0
+    }
+  },
+  "result":
+  {
+    "item": "mochisystemscore:remotecontroller",
+    "data": 0,
+    "count": 1
+  }
+}

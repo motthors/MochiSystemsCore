@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "sss",
+    "scs",
+    "sss"
+  ],
+  "key":
+  {
+    "s":
+    {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "c":
+    {
+      "item": "minecraft:stone_sword",
+      "data": 0
+    }
+  },
+  "result":
+  {
+    "item": "mochisystemscore:modelcutter",
+    "data": 0,
+    "count": 1
+  }
+}
