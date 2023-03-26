@@ -61,7 +61,7 @@ import java.util.Arrays;
 @Mod(
         modid = _Core.MODID,
         name = "MochiSystems Core",
-        version = "1.0beta2",
+        version = "1.0beta3",
         useMetadata = true
 )
 public class _Core {
@@ -142,7 +142,7 @@ public class _Core {
         );
 //        ItemStick.setCreativeTab(Tab);
         ItemStick.setUnlocalizedName("BlockPlacer");
-        ItemStick.setRegistryName("ItemPlacingBlockStick");
+        ItemStick.setRegistryName(MODID, "ItemPlacingBlockStick");
         ItemStick.setMaxStackSize(1);
 
         event.getRegistry().registerAll(ItemStick);

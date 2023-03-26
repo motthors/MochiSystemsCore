@@ -65,21 +65,18 @@ public class LimitFrame {
 	{
 		yMin = min;
 		yMax = max;
-		FixByLimit();
 		createVertex();
 	}
 	public void SetY(int min, int max)
 	{
 		yMin = min;
 		yMax = max;
-		FixByLimit();
 		createVertex();
 	}
 	public void SetZ(int min, int max)
 	{
 		yMin = min;
 		yMax = max;
-		FixByLimit();
 		createVertex();
 	}
 
@@ -91,12 +88,15 @@ public class LimitFrame {
 		yMax = maxy;
 		zMin = minz;
 		zMax = maxz;
-		FixByLimit();
 		createVertex();
     }
 
-    public void AddLengths(int minx, int miny, int minz, int maxx, int maxy, int maxz)
-    {
+	public void AddLengths(int minx, int miny, int minz, int maxx, int maxy, int maxz)
+	{
+		AddLengths(minx, miny, minz, maxx, maxy, maxz, true);
+	}
+	public void AddLengths(int minx, int miny, int minz, int maxx, int maxy, int maxz, boolean fixLimit)
+	{
         int xMin = Math.min(this.xMin + minx, this.xMax);
         int xMax = Math.max(this.xMax + maxx, this.xMin);
         int yMin = Math.min(this.yMin + miny, this.yMax);
@@ -109,7 +109,7 @@ public class LimitFrame {
 		this.yMax = yMax;
 		this.zMin = zMin;
 		this.zMax = zMax;
-		FixByLimit();
+		if(fixLimit) FixByLimit();
         createVertex();
     }
 

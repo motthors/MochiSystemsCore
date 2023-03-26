@@ -82,33 +82,21 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
         }
     }
 
-    protected void AddFrameFront(int add){
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
+    protected void AddFrameFront(int d){
         switch(tile.GetSide()){
             case UP: case DOWN: frame.AddLengths(0, -d, 0, 0, d, 0); break;
-            case EAST: case WEST: frame.AddLengths(-add, 0, 0, d, 0, 0); break;
+            case EAST: case WEST: frame.AddLengths(-d, 0, 0, d, 0, 0); break;
             case NORTH: case SOUTH: frame.AddLengths(0, 0, -d, 0, 0, d); break;
         }
     }
-    protected void AddFrameSide(int add){
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
+    protected void AddFrameSide(int d){
         switch(tile.GetSide()){
             case NORTH: case SOUTH:
             case UP: case DOWN: frame.AddLengths(-d, 0, 0, d, 0, 0); break;
             case EAST: case WEST: frame.AddLengths(0, 0, -d, 0, 0, d); break;
         }
     }
-    protected void AddFrameHeight(int add){
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
+    protected void AddFrameHeight(int d){
         switch(tile.GetSide()){
             case UP: case DOWN: frame.AddLengths(0, 0, -d, 0, 0, d); break;
             case EAST: case WEST:
@@ -164,7 +152,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "X", fontRenderer, 2, 10, 0xffffff,
-                    add -> frame.AddLengths(0, 0, 0, add, 0, 0),
+                    add -> frame.AddLengths(0, 0, 0, smoothFraming(add), 0, 0),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 10, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getxx()),
@@ -176,7 +164,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Y", fontRenderer, 2, 20, 0xffffff,
-                    add -> frame.AddLengths(0, 0, 0, 0, add, 0),
+                    add -> frame.AddLengths(0, 0, 0, 0, smoothFraming(add), 0),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 20, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getxy()),
@@ -188,7 +176,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Z", fontRenderer, 2, 30, 0xffffff,
-                    add -> frame.AddLengths(0, 0, 0, 0, 0, add),
+                    add -> frame.AddLengths(0, 0, 0, 0, 0, smoothFraming(add)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 30, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getxz()),
@@ -204,7 +192,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "X", fontRenderer, 2, 55, 0xffffff,
-                    add -> frame.AddLengths(add, 0, 0, 0, 0, 0),
+                    add -> frame.AddLengths(smoothFraming(add), 0, 0, 0, 0, 0),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 55, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getmx()),
@@ -216,7 +204,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Y", fontRenderer, 2, 65, 0xffffff,
-                    add -> frame.AddLengths(0, add, 0, 0, 0, 0),
+                    add -> frame.AddLengths(0, smoothFraming(add), 0, 0, 0, 0),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 65, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getmy()),
@@ -228,7 +216,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Z", fontRenderer, 2, 75, 0xffffff,
-                    add -> frame.AddLengths(0, 0, add, 0, 0, 0),
+                    add -> frame.AddLengths(0, 0, smoothFraming(add), 0, 0, 0),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 75, 30, 10, 0xffffff, 5,
                     () -> String.format("%5d", frame.getmz()),
@@ -243,7 +231,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
             // front
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Front", fontRenderer, 2, 5, 0xffffff,
-                    this::AddFrameFront,
+                    d -> AddFrameFront(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 5, 50, 10, 0xffffff, 5,
                     () -> String.format("%5d", FrameLengthFront()),
@@ -261,7 +249,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
             // side
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Side", fontRenderer, 2, 35, 0xffffff,
-                    this::AddFrameSide,
+                    d -> AddFrameSide(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 35, 50, 10, 0xffffff, 5,
                     () -> String.format("%5d", FrameLengthSide()),
@@ -279,7 +267,7 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
             // height
             Canvas.Register(group, new GuiDragChangerLabel(
                     "Height", fontRenderer, 2, 65, 0xffffff,
-                    this::AddFrameHeight,
+                    d -> AddFrameHeight(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiFormattedTextField(0, fontRenderer, 50, 65, 50, 10, 0xffffff, 5,
                     () -> String.format("%5d", FrameLengthHeight()),
@@ -301,19 +289,19 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
         {
             Canvas.Register(group, new GuiDragChangerLabel(
                     "<-", fontRenderer, 83, height/2-20, 0xffffff,
-                    this::AddFlexFrameLeft,
+                    d -> AddFlexFrameLeft(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiDragChangerLabel.Vert(
                     "^", fontRenderer, width/2-10, 20, 0xffffff,
-                    this::AddFlexFrameUp,
+                    d -> AddFlexFrameUp(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiDragChangerLabel.Vert(
                     "v", fontRenderer, width/2-10, height-70, 0xffffff,
-                    this::AddFlexFrameDown,
+                    d -> AddFlexFrameDown(smoothFraming(d)),
                     this::UpdateFrame));
             Canvas.Register(group, new GuiDragChangerLabel(
                     "->", fontRenderer, width-110, height/2-20, 0xffffff,
-                    this::AddFlexFrameRight,
+                    d -> AddFlexFrameRight(smoothFraming(d)),
                     this::UpdateFrame));
         }
     }
@@ -379,51 +367,45 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
 
 
     private int sumFrameD = 0;
-    private void AddFlexFrameLeft(int add)
+    private int smoothFraming(int add)
     {
-//        add = MathHelper.clamp(add, -1, 1);
         sumFrameD += add;
         int d = sumFrameD / 4;
-        if(d == 0) return;
+        if(d == 0) return 0;
         sumFrameD -= 4*d;
+        return d;
+    }
+
+    private void AddFlexFrameLeft(int d)
+    {
         int o = 0;
         if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
             o = -d;
         }
         EnumFacing horz = mc.player.getHorizontalFacing();
         switch (horz){
-            case SOUTH: frame.AddLengths(-o, 0, 0, -d, 0, 0); break;
-            case NORTH: frame.AddLengths(d, 0, 0, o, 0, 0); break;
-            case EAST: frame.AddLengths(0, 0, d, 0, 0, o); break;
-            case WEST: frame.AddLengths(0, 0, -o, 0, 0, -d); break;
+            case SOUTH: frame.AddLengths(-o, 0, 0, -d, 0, 0, false); break;
+            case NORTH: frame.AddLengths(d, 0, 0, o, 0, 0, false); break;
+            case EAST: frame.AddLengths(0, 0, d, 0, 0, o, false); break;
+            case WEST: frame.AddLengths(0, 0, -o, 0, 0, -d, false); break;
         }
     }
-    private void AddFlexFrameRight(int add)
+    private void AddFlexFrameRight(int d)
     {
-//        add = MathHelper.clamp(add, -1, 1);
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
         int o = 0;
         if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
             o = -d;
         }
         EnumFacing horz = mc.player.getHorizontalFacing();
         switch (horz){
-            case SOUTH: frame.AddLengths(-d, 0, 0, -o, 0, 0); break;
-            case NORTH: frame.AddLengths(o, 0, 0, d, 0, 0); break;
-            case EAST: frame.AddLengths(0, 0, o, 0, 0, d); break;
-            case WEST: frame.AddLengths(0, 0, -d, 0, 0, -o); break;
+            case SOUTH: frame.AddLengths(-d, 0, 0, -o, 0, 0, false); break;
+            case NORTH: frame.AddLengths(o, 0, 0, d, 0, 0, false); break;
+            case EAST: frame.AddLengths(0, 0, o, 0, 0, d, false); break;
+            case WEST: frame.AddLengths(0, 0, -d, 0, 0, -o, false); break;
         }
     }
-    private void AddFlexFrameUp(int add)
+    private void AddFlexFrameUp(int d)
     {
-//        add = MathHelper.clamp(add, -1, 1);
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
         EnumFacing face = EnumFacing.UP;
         if(mc.player.rotationPitch > 45) // down
         {
@@ -435,13 +417,8 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
         }
         AddFrameFront(d, face);
     }
-    private void AddFlexFrameDown(int add)
+    private void AddFlexFrameDown(int d)
     {
-//        add = MathHelper.clamp(add, -1, 1);
-        sumFrameD += add;
-        int d = sumFrameD / 4;
-        if(d == 0) return;
-        sumFrameD -= 4*d;
         EnumFacing face = EnumFacing.DOWN;
         if(mc.player.rotationPitch > 45) // down
         {
@@ -460,12 +437,12 @@ public class GUIBlockScannerBase extends GUICanvasGroupControl {
             o = -d;
         }
         switch (dir){
-            case UP: frame.AddLengths(0, o, 0, 0, d, 0); break;
-            case DOWN: frame.AddLengths(0, d, 0, 0, o, 0); break;
-            case SOUTH: frame.AddLengths(0, 0, o, 0, 0, d); break;
-            case NORTH: frame.AddLengths(0, 0, -d, 0, 0, -o); break;
-            case EAST: frame.AddLengths(o, 0, 0, d, 0, 0); break;
-            case WEST: frame.AddLengths(-d, 0, 0, -o, 0, 0); break;
+            case UP: frame.AddLengths(0, o, 0, 0, d, 0, false); break;
+            case DOWN: frame.AddLengths(0, d, 0, 0, o, 0, false); break;
+            case SOUTH: frame.AddLengths(0, 0, o, 0, 0, d, false); break;
+            case NORTH: frame.AddLengths(0, 0, -d, 0, 0, -o, false); break;
+            case EAST: frame.AddLengths(o, 0, 0, d, 0, 0, false); break;
+            case WEST: frame.AddLengths(-d, 0, 0, -o, 0, 0, false); break;
         }
     }
 
