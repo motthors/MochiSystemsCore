@@ -61,7 +61,7 @@ import java.util.Arrays;
 @Mod(
         modid = _Core.MODID,
         name = "MochiSystems Core",
-        version = "1.0beta3",
+        version = "1.0beta4",
         useMetadata = true
 )
 public class _Core {

@@ -23,7 +23,7 @@ public class BlockFileManager extends BlockContainer{
 	public BlockFileManager()
 	{
 		super(Material.GROUND);
-		this.setHardness(1.0F);
+		this.setHardness(0.3F);
 		this.setResistance(2000.0F);
 		this.setLightOpacity(1);
 		this.setLightLevel(0.0F);

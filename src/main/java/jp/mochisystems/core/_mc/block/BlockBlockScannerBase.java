@@ -21,7 +21,7 @@ public abstract class BlockBlockScannerBase extends BlockContainer {
     public BlockBlockScannerBase()
     {
         super(Material.GROUND);
-        this.setHardness(1.0F);
+        this.setHardness(0.3F);
         this.setResistance(2000.0F);
         this.setLightOpacity(1);
         this.setLightLevel(0.0F);

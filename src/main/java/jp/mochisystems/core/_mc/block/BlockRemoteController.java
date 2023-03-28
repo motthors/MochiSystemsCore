@@ -31,7 +31,7 @@ public class BlockRemoteController extends BlockContainer {
 	public BlockRemoteController()
 	{
 		super(Material.GROUND);
-		this.setHardness(0.4F);
+		this.setHardness(0.3F);
 		this.setResistance(2000.0F);
 		this.setDefaultState(this.blockState.getBaseState());
 	}
@@ -71,17 +71,17 @@ public class BlockRemoteController extends BlockContainer {
 									EnumHand hand, EnumFacing facing,
 									float hitX, float hitY, float hitZ)
 	{
-		ItemStack stack = player.getHeldItem(hand);
-		if(stack == null) return true;
-		boolean isRemoteController = stack.getItem() instanceof itemBlockRemoteController;
-		if(!isRemoteController) return true;
+//		ItemStack stack = player.getHeldItem(hand);
+//		if(stack == null) return true;
+//		boolean isRemoteController = stack.getItem() instanceof itemBlockRemoteController;
+//		if(!isRemoteController) return true;
 		tileEntityRemoteController tile = (tileEntityRemoteController) world.getTileEntity(pos);
 		if(tile == null)return true;
-
-		Block remoteBlock = world.getBlockState(tile.remotePos).getBlock();
 		if(tile.remotePos.equals(pos)) return true;
 
-		return remoteBlock.onBlockActivated(world, tile.remotePos, state, player, hand, facing, hitX, hitY, hitZ);
+		IBlockState remoteState = world.getBlockState(tile.remotePos);
+		Block remoteBlock = remoteState.getBlock();
+		return remoteBlock.onBlockActivated(world, tile.remotePos, remoteState, player, hand, facing, hitX, hitY, hitZ);
 	}
 
 	public static IBlockState TargetBlock(World world, NBTTagCompound nbt)
